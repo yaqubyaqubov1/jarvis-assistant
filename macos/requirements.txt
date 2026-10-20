@@ -1,10 +1,10 @@
-# Tested versions are not yet pinned. Use Python 3.11 on macOS.
 vosk
 faster-whisper
 sounddevice
 numpy
 scipy
 requests
+pyttsx3
 psutil
 pyautogui
 pyperclip
@@ -19,4 +19,3 @@ plyer
 PySide6
 pyobjc-framework-Cocoa
 pyobjc-framework-Quartz
-# Optional for en_US-ryan-high.onnx: pip install piper-tts
