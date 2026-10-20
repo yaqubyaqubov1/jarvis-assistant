@@ -1,0 +1,22 @@
+# Tested versions are not yet pinned. Use Python 3.11 on macOS.
+vosk
+faster-whisper
+sounddevice
+numpy
+scipy
+requests
+psutil
+pyautogui
+pyperclip
+pillow
+ddgs
+beautifulsoup4
+playwright
+send2trash
+pypdf
+python-docx
+plyer
+PySide6
+pyobjc-framework-Cocoa
+pyobjc-framework-Quartz
+# Optional for en_US-ryan-high.onnx: pip install piper-tts
