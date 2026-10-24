@@ -77,6 +77,20 @@ def quick_plan(text):
     raw = _clean_raw(text)
     command = raw.lower()
 
+    # Fast local route for Gmail daily briefings (no LLM planner needed).
+    if re.fullmatch(
+        r"(?:summari[sz]e|brief me on|summarize|check|show)"
+        r"(?: my)?(?: gmail| emails?| inbox)"
+        r"(?: (?:from|for|in|over|received in) (?:the )?(?:last|past) 24 hours)?",
+        command,
+        flags=re.I,
+    ):
+        return {
+            "kind": "task",
+            "response": "",
+            "steps": [{"tool": "gmail_summary_24h", "arguments": {}}],
+        }
+
     # =====================================================
     # KEYBOARD TYPING
     #

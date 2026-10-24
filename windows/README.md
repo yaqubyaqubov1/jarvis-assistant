@@ -89,3 +89,36 @@ The local LLM never gets unrestricted shell access. It can only request register
 ## Optional extras
 - Run `pip install -r requirements_optional.txt` if you want the included Piper voice instead of Windows SAPI.
 - Run `install_startup.bat` if you want JARVIS to launch when you sign in to Windows; `remove_startup.bat` removes it.
+
+## Windows work, Gmail and account workflows (experimental)
+
+JARVIS can now create new Excel (.xlsx), Word (.docx), PowerPoint (.pptx), and CSV files using purpose-built registered tools. These files are generated directly and do not require Microsoft Office to be installed. Existing files are not intentionally overwritten.
+
+Try: “Jarvis, create an Excel file in Documents called expenses.xlsx with columns Item and Cost and rows Rent 800, Internet 50.”
+
+### Connect Gmail securely (optional)
+
+1. Enable the Gmail API in a Google Cloud project and configure a Desktop OAuth client and consent screen.
+2. Download the Desktop OAuth client JSON and KEEP IT OUT OF THE PUBLIC REPOSITORY.
+3. Activate the Windows virtual environment, then run: python setup_gmail.py PATH_TO_DESKTOP_OAUTH_CLIENT_JSON
+4. Finish Google's browser sign-in. OAuth tokens are saved in Windows Credential Manager through keyring.
+5. Try: “Jarvis, summarise my inbox from the last 24 hours.”
+
+Gmail can list and read messages from the last 24 hours, prepare local drafts, and send a prepared draft only after an explicit on-screen confirmation showing its recipient, subject and body. Drafts are held in JARVIS memory, not saved in Gmail's Drafts folder. An OAuth Desktop client is required; never put email passwords, authentication codes, client JSON or access tokens into config.py or GitHub.
+
+### Website accounts
+
+Open a website in JARVIS's controlled Chromium browser, then sign in MANUALLY. Your browser profile remains locally in windows/data/browser_profile. Ask JARVIS to summarise the currently open signed-in page, or help navigate it. Website clicks now require confirmation. Do not dictate passwords or verification codes to JARVIS; perform high-risk purchases, payments, account changes and MFA manually.
+
+### Languages and speed
+
+The multilingual Faster-Whisper model is now set to base with automatic language detection. Set WHISPER_LANGUAGE in config.py to en, es, fr, de or another supported code to override detection. The Vosk wake word remains English “Jarvis”. Model tiny is faster but less accurate; model small is more accurate but slower. Shorter reply lengths and quicker speech decoding should help response times, depending on your hardware.
+
+### Verification
+
+From the Windows virtual environment, run:
+
+    python -m compileall -q .
+    python -m unittest discover -s tests -v
+
+The new features are still experimental until tested on a real Windows PC. The macOS folder has not been changed for this upgrade.

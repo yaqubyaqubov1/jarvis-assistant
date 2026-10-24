@@ -1,0 +1,31 @@
+name: Windows JARVIS feature checks
+
+on:
+  push:
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows-feature-tests.yml"
+  pull_request:
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows-feature-tests.yml"
+  workflow_dispatch:
+
+jobs:
+  python-checks:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install focused test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install openpyxl python-docx python-pptx requests
+      - name: Check Python syntax
+        working-directory: windows
+        run: python -m compileall -q .
+      - name: Run document and draft safety tests
+        working-directory: windows
+        run: python -m unittest discover -s tests -v

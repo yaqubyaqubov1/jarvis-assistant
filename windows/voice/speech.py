@@ -10,6 +10,7 @@ from faster_whisper import (
 from config import (
     SAMPLE_RATE,
     WHISPER_MODEL,
+    WHISPER_LANGUAGE,
     WHISPER_DEVICE,
     WHISPER_COMPUTE_TYPE,
     LISTEN_MAX_SECONDS,
@@ -63,19 +64,20 @@ def transcribe(
         / 32768.0
     )
 
+    selected_language = None if str(WHISPER_LANGUAGE).lower() in ("auto", "", "none") else WHISPER_LANGUAGE
+
     segments, _ = (
         model().transcribe(
             float_audio,
-            language="en",
-            beam_size=4,
+            language=selected_language,
+            beam_size=2,
             temperature=0,
             vad_filter=True,
             condition_on_previous_text=False,
             initial_prompt=(
-                "Jarvis. Notepad++. "
-                "PyCharm. Visual Studio Code. "
-                "Chrome. Spotify. Reminder. "
-                "Timer. DuckDuckGo."
+                "Jarvis. Notepad++. PyCharm. Visual Studio Code. "
+                "Chrome. Spotify. Reminder. Timer. DuckDuckGo."
+                if selected_language == "en" else None
             ),
         )
     )
