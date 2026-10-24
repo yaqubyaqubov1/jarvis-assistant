@@ -36,9 +36,12 @@ import tools.modes
 import tools.reminders
 import tools.system
 import tools.web_tools
+import tools.work_documents
+import tools.gmail
 
 try:
     import tools.browser
+    import tools.account_browser
 except ImportError:
     pass
 
@@ -274,6 +277,9 @@ class JarvisWorker(QThread):
                 "That may close applications containing unsaved work. "
                 "Shall I proceed?"
             )
+        elif tool_name == "gmail_send_draft":
+            from tools.gmail import draft_preview
+            message = draft_preview(arguments.get("draft_id"))
         elif tool_name == "delete_path":
             message = "That will remove a file or folder. Shall I proceed?"
         elif tool_name == "power_action":
@@ -286,7 +292,9 @@ class JarvisWorker(QThread):
 
         self._play_sfx_safely(stream, "confirm", block=True)
         self.confirmation_requested.emit(message)
-        self._speak_safely(stream, message)
+        spoken_message = ("Please review the email on screen before approving it."
+                          if tool_name == "gmail_send_draft" else message)
+        self._speak_safely(stream, spoken_message)
 
         self._confirmation_event.wait(timeout=30)
 

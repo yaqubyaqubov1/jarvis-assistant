@@ -9,6 +9,9 @@ def verify(tool_name, args, result):
         if tool_name == "write_text_file":
             ok = resolve_path(args["path"]).is_file()
             return ok, "file exists" if ok else "file was not found after writing"
+        if tool_name in {"create_spreadsheet", "create_word_document", "create_presentation", "create_csv"}:
+            ok = resolve_path(args["path"]).is_file()
+            return ok, "work document exists" if ok else "document was not found"
         if tool_name == "copy_file":
             ok = resolve_path(args["destination"]).exists()
             return ok, "copy exists" if ok else "destination was not found"

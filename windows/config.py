@@ -13,7 +13,8 @@ VISION_MODEL = "llava:7b"  # Optional; install locally only if you want screen u
 EMBEDDING_MODEL = "nomic-embed-text"  # Optional local semantic document search.
 
 SAMPLE_RATE = 16000
-WHISPER_MODEL = "base.en"  # Change to small.en for better accuracy or tiny.en for more speed.
+WHISPER_MODEL = "base"  # Multilingual. Use "tiny" for speed, "small" for accuracy.
+WHISPER_LANGUAGE = "auto"  # Auto-detect. Or use "en", "es", "fr", "de", etc.
 WHISPER_DEVICE = "cpu"
 WHISPER_COMPUTE_TYPE = "int8"
 MIC_DEVICE = None

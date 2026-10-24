@@ -155,7 +155,7 @@ J.A.R.V.I.S.:
     return generate(
         prompt,
         temperature=0.35,
-        num_predict=300,
+        num_predict=220,
     )
 
 
