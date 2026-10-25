@@ -122,3 +122,38 @@ From the Windows virtual environment, run:
     python -m unittest discover -s tests -v
 
 The new features are still experimental until tested on a real Windows PC. The macOS folder has not been changed for this upgrade.
+
+## Command recognition troubleshooting (Windows)
+
+JARVIS routes common work and Gmail commands directly before using a focused
+local AI planner for complex documents. Use the JARVIS text-input field
+first to distinguish voice-transcription errors from action-routing errors.
+
+Examples you can type or say after waking JARVIS:
+
+- Create an Excel spreadsheet in Documents named expenses.xlsx with columns Item and Cost and rows Rent 800, Internet 50
+- Make a CSV called inventory.csv on Desktop with columns Item and Count and rows Pens 5, Pencils 12
+- Create a Word report called quarterly.docx about our project priorities
+- Make a PowerPoint presentation named briefing.pptx about project updates
+- Summarise my emails from the last 24 hours (requires Gmail OAuth setup)
+- Draft an email to team@example.org about our weekly meeting
+- Send the email (reviews the most recent draft and asks for confirmation)
+- Summarize this account dashboard (after signing in manually in JARVIS browser)
+
+Excel/CSV direct commands need the filename, columns, and optional rows.
+Word/PowerPoint can generate content using the local model, but require
+explicit filenames (.docx/.pptx). JARVIS refuses to overwrite existing
+work files: use a new filename for subsequent runs.
+
+For fast spoken English commands, if the multilingual model transcribes
+incorrectly, set WHISPER_LANGUAGE = "en" in config.py and restart JARVIS.
+Set it back to "auto" or another supported language code for other
+languages. Wake word detection still expects the English name Jarvis.
+
+From the Windows folder with .venv active, run:
+
+    python -m unittest discover -s tests -v
+
+Command routing, generated documents, and local email draft previews are
+tested without sending emails, accessing a website account, or making
+payments. Gmail still requires valid account authorization and real UI testing.

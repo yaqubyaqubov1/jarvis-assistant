@@ -1,5 +1,7 @@
 import re
 
+from core.work_intents import work_intent
+
 
 CONVERSATION_EXACT = {
     "hello",
@@ -76,6 +78,12 @@ def _strip_matching_quotes(text):
 def quick_plan(text):
     raw = _clean_raw(text)
     command = raw.lower()
+
+    # Recognise work, Gmail and website-account requests before generic
+    # Windows app/browser shortcuts and before the broad LLM planner.
+    matched, work_plan = work_intent(raw)
+    if matched:
+        return work_plan
 
     # Fast local route for Gmail daily briefings (no LLM planner needed).
     if re.fullmatch(

@@ -12,6 +12,8 @@ from core.cancellation import (
 from core.executor import execute, undo_last
 from core.planner import plan
 from core.router import quick_plan, looks_conversational
+from core.work_intents import is_work_document_request
+from core.document_planner import plan_document
 from core.session import SESSION
 from core.state import STATE
 from memory.database import save_task
@@ -87,6 +89,10 @@ class Assistant:
 
             if fast is not None:
                 task_plan = fast
+
+            elif is_work_document_request(command):
+                STATE.set("PLANNING", "work document")
+                task_plan = plan_document(command)
 
             elif looks_conversational(command):
                 STATE.set("THINKING", "local conversation")
